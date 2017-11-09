@@ -1,0 +1,8 @@
+digits.png
+dirs.txt
+lower.png
+symbols.png
+upper.png
+word.png
+word2.png
+word3.png
