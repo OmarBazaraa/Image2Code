@@ -14,7 +14,7 @@ using namespace cv;
 // Constants
 const int BACKCOLOR = 255;
 const int FORECOLOR = 0;
-const int MERGE_THRESHOLD = 35;
+const int MERGE_THRESHOLD = 50;
 const int dirR[8] = { -1, -1, 0, 1, 1, 1, 0, -1 };
 const int dirC[8] = { 0, 1, 1, 1, 0, -1, -1, -1 };
 

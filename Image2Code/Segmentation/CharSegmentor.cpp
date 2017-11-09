@@ -15,7 +15,8 @@ Region CharSegmentor::region;
 //========================================================================
 
 /**
- *
+ * Segment the given word image into characters and add them
+ * to the given chars vector.
  */
 void CharSegmentor::segment(cv::Mat& img, vector<cv::Mat>& chars) {
 	// Initialization
@@ -45,7 +46,8 @@ void CharSegmentor::segment(cv::Mat& img, vector<cv::Mat>& chars) {
 }
 
 /**
- *
+ * Extract regions of the same id into a matrix
+ * and add it to the chars vector.
  */
 void CharSegmentor::extractChars(vector<cv::Mat>& chars) {
 	for (auto& r : regions) {
@@ -68,7 +70,7 @@ void CharSegmentor::extractChars(vector<cv::Mat>& chars) {
 }
 
 /**
- *
+ * Merge overlapping regions into one region.
  */
 void CharSegmentor::mergeRegions() {
 	vector<Region> tmp;
@@ -99,7 +101,8 @@ void CharSegmentor::mergeRegions() {
 }
 
 /**
- *
+ * Start depth first search from the given point to get the boundaries
+ * of the connected region and mark it with a unique id.
  */
 void CharSegmentor::dfs(int row, int col) {
 	// Update boundries
@@ -123,7 +126,8 @@ void CharSegmentor::dfs(int row, int col) {
 }
 
 /**
- *
+ * Check if the given pixel is inside the image
+ * and that its color is foreground color.
  */
 bool CharSegmentor::valid(int row, int col) {
 	return (
@@ -134,7 +138,7 @@ bool CharSegmentor::valid(int row, int col) {
 }
 
 /**
- *
+ * Initialize character segmentation variables.
  */
 void CharSegmentor::init(cv::Mat& img) {
 	n = img.rows;

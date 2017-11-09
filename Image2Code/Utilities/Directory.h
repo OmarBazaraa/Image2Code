@@ -10,7 +10,7 @@ using namespace std;
 inline void getFilesInDirectory(const string& directory, vector<pair<string, string>>& files) {
 	// Make sure to change the following command to the corresponding
 	// one on your operating system when using Linux or MAC
-	string txtPath = "Input\\dirs.txt";
+	string txtPath = "Data\\Input\\dirs.txt";
 
 	string s = "dir " + directory + "/b > " + txtPath;
 	system(s.c_str());
