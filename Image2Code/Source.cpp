@@ -5,14 +5,14 @@
 using namespace std;
 
 // Custom libraries
-#include "Utilities\Directory.h"
-#include "Utilities\Utility.h"
-#include "Segmentation\CharSegmentor.h"
+#include "Utilities/Directory.h"
+#include "Utilities/Utility.h"
+#include "Segmentation/CharSegmentor.h"
 using namespace cv;
 
-// Pathes
-const string PATH_INPUT = "Data\\Input\\";
-const string PATH_OUTPUT = "Data\\Output\\";
+// Paths.
+const string PATH_INPUT = "../Data/Input/";
+const string PATH_OUTPUT = "../Data/Output/";
 
 // Output the given character matrix vector to the given path
 void saveChars(const vector<cv::Mat>& chars, const string& path, const string& extension) {
@@ -35,7 +35,11 @@ int main() {
 
 	// Delete previous output directory
 	// Note: Windows command used
-	string cmd = "rmdir " + PATH_OUTPUT + " /S/Q";
+	string cmd = "rm -rf " + PATH_OUTPUT;
+	system(cmd.c_str());
+
+	// Re-create output folder
+	cmd = "mkdir " + PATH_OUTPUT;
 	system(cmd.c_str());
 
 	try {
@@ -50,7 +54,7 @@ int main() {
 
 			// Get file pathes
 			string src = PATH_INPUT + files[i].first + "." + files[i].second;
-			string dst = PATH_OUTPUT + files[i].first + "\\";
+			string dst = PATH_OUTPUT + files[i].first + "/";
 
 			// Segmentation variables
 			cv::Mat word;

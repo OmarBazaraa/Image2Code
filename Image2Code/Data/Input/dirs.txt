@@ -1,3 +1,4 @@
+test4.jpg
 digits.png
 dirs.txt
 lower.png

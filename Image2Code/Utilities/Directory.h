@@ -10,9 +10,9 @@ using namespace std;
 inline void getFilesInDirectory(const string& directory, vector<pair<string, string>>& files) {
 	// Make sure to change the following command to the corresponding
 	// one on your operating system when using Linux or MAC
-	string txtPath = "Data\\Input\\dirs.txt";
+	string txtPath = "../Data/Input/dirs.txt";
 
-	string s = "dir " + directory + "/b > " + txtPath;
+	string s = "ls " + directory;
 	system(s.c_str());
 
 	ifstream fin(txtPath);
@@ -23,5 +23,5 @@ inline void getFilesInDirectory(const string& directory, vector<pair<string, str
 		files.push_back({ s.substr(0, idx), s.substr(idx + 1) });
 	}
 
-	remove(txtPath.c_str());
+//	remove(txtPath.c_str());
 }
