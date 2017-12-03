@@ -1,7 +1,10 @@
 digits.png
 dirs.txt
+extreme.png
+ij.png
 lower.png
 symbols.png
+temp
 upper.png
 word.png
 word2.png

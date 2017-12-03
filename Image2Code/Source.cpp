@@ -43,7 +43,7 @@ int main() {
 		getFilesInDirectory(PATH_INPUT, files);
 
 		for (int i = 0; i < files.size(); ++i) {
-			// If file is not of type .jpg or .png then skip it
+			// If file is not of type .jpg and not .png then skip it
 			if (files[i].second != "jpg" && files[i].second != "png") {
 				continue;
 			}

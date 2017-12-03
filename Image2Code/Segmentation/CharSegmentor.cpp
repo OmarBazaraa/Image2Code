@@ -41,13 +41,14 @@ void CharSegmentor::segment(cv::Mat& img, vector<cv::Mat>& chars) {
 		}
 	}
 
+	//preprocessRegions();
 	mergeRegions();
 	extractChars(chars);
 }
 
 /**
- * Extract regions of the same id into a matrix
- * and add it to the chars vector.
+ * Extract regions of the same id into a matrix, exculding overlapping regions
+ * of different ids, and add it to the chars vector.
  */
 void CharSegmentor::extractChars(vector<cv::Mat>& chars) {
 	for (auto& r : regions) {
@@ -74,29 +75,34 @@ void CharSegmentor::extractChars(vector<cv::Mat>& chars) {
  */
 void CharSegmentor::mergeRegions() {
 	vector<Region> tmp;
-	sort(regions.rbegin(), regions.rend());
+	sort(regions.begin(), regions.end());
 
 	for (int i = 0; i < regions.size(); ++i) {
-		Region& p = regions[i];
+		tmp.push_back(regions[i]);
 
-		for (i++; i < regions.size(); ++i) {
-			Region& q = regions[i];
-			
-			int commonWidth = q.R - max(p.L, q.L) + 1;
+		if (i + 1 >= regions.size()) {
+			break;
+		}
 
-			if (commonWidth * 100 < (p.R - p.L + 1) * MERGE_THRESHOLD) {
-				i--;
-				break;
-			}
+		Region& p = tmp.back();
+		Region& q = regions[i + 1];
 
+		int commonHeight = min(p.D, q.D) - max(p.U, q.U) + 1;
+		int commonWidth = p.R - max(p.L, q.L) + 1;
+		int space = q.L - p.R + 1;
+		int width = min(q.R - q.L, p.R - p.L) + 1;
+
+		if (commonHeight > 0) {
+			continue;
+		}
+
+		if (commonWidth >= 0 || space * 100 <= width * MERGE_X_THRESHOLD) {
+			i++;
 			regionsID[q.id] = p.id;
 			p.merge(q);
 		}
-
-		tmp.push_back(p);
 	}
 
-	reverse(tmp.begin(), tmp.end());
 	regions.swap(tmp);
 }
 
@@ -111,7 +117,7 @@ void CharSegmentor::dfs(int row, int col) {
 	region.D = max(region.D, row);
 	region.R = max(region.R, col);
 
-	// Set current pixel as visisted
+	// Set current pixel as visisted with current component id
 	visited.at<uchar>(row, col) = id;
 
 	// Visit neighbours

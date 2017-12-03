@@ -14,16 +14,13 @@ using namespace cv;
 // Constants
 const int BACKCOLOR = 255;
 const int FORECOLOR = 0;
-const int MERGE_THRESHOLD = 50;
+const int MERGE_X_THRESHOLD = 40;
 const int dirR[8] = { -1, -1, 0, 1, 1, 1, 0, -1 };
 const int dirC[8] = { 0, 1, 1, 1, 0, -1, -1, -1 };
 
 struct Region {
-	int U;	// Up
-	int D;	// Down
-	int L;	// Left
-	int R;	// Right
 	int id;
+	int U, D, L, R;	// Up, Down, Left, Right
 
 	Region() {
 		U = L = 1e9;
@@ -39,7 +36,7 @@ struct Region {
 
 	bool operator<(const Region& rhs) const {
 		if (R == rhs.R)
-			return L > rhs.L;
+			return L < rhs.L;
 		return R < rhs.R;
 	}
 };
@@ -57,7 +54,7 @@ public:
 	static void segment(cv::Mat& img, vector<cv::Mat>& chars);
 
 private:
-	CharSegmentor() {}	// Private constructor
+	CharSegmentor() {}	// Private constructor (i.e. static class)
 
 	static void extractChars(vector<cv::Mat>& chars);
 
