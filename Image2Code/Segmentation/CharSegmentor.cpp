@@ -4,8 +4,8 @@
 //
 // Static members declaration
 //
-int CharSegmentor::n;
-int CharSegmentor::m;
+int CharSegmentor::rows;
+int CharSegmentor::cols;
 int CharSegmentor::id;
 cv::Mat CharSegmentor::word;
 cv::Mat CharSegmentor::visited;
@@ -14,17 +14,14 @@ map<int, int> CharSegmentor::regionsID;
 Region CharSegmentor::region;
 //========================================================================
 
-/**
- * Segment the given word image into characters and add them
- * to the given chars vector.
- */
+
 void CharSegmentor::segment(cv::Mat& img, vector<cv::Mat>& chars) {
 	// Initialization
 	init(img);
 
 	// Scan word matrix
-	for (int i = 0; i < n; ++i) {
-		for (int j = 0; j < m; ++j) {
+	for (int i = 0; i < rows; ++i) {
+		for (int j = 0; j < cols; ++j) {
 			// Continue if previously visited or background pixel
 			if (visited.at<uchar>(i, j) || word.at<uchar>(i, j) == BACKCOLOR) {
 				continue;
@@ -46,10 +43,6 @@ void CharSegmentor::segment(cv::Mat& img, vector<cv::Mat>& chars) {
 	extractChars(chars);
 }
 
-/**
- * Extract regions of the same id into a matrix, exculding overlapping regions
- * of different ids, and add it to the chars vector.
- */
 void CharSegmentor::extractChars(vector<cv::Mat>& chars) {
 	for (auto& r : regions) {
 		int w = r.R - r.L + 1;
@@ -70,9 +63,6 @@ void CharSegmentor::extractChars(vector<cv::Mat>& chars) {
 	}
 }
 
-/**
- * Merge overlapping regions into one region.
- */
 void CharSegmentor::mergeRegions() {
 	vector<Region> tmp;
 	sort(regions.begin(), regions.end());
@@ -106,10 +96,6 @@ void CharSegmentor::mergeRegions() {
 	regions.swap(tmp);
 }
 
-/**
- * Start depth first search from the given point to get the boundaries
- * of the connected region and mark it with a unique id.
- */
 void CharSegmentor::dfs(int row, int col) {
 	// Update boundries
 	region.U = min(region.U, row);
@@ -131,27 +117,20 @@ void CharSegmentor::dfs(int row, int col) {
 	}
 }
 
-/**
- * Check if the given pixel is inside the image
- * and that its color is foreground color.
- */
 bool CharSegmentor::valid(int row, int col) {
 	return (
-		row >= 0 && row < n &&
-		col >= 0 && col < m &&
+		row >= 0 && row < rows &&
+		col >= 0 && col < cols &&
 		word.at<uchar>(row, col) == FORECOLOR
 	);
 }
 
-/**
- * Initialize character segmentation variables.
- */
 void CharSegmentor::init(cv::Mat& img) {
-	n = img.rows;
-	m = img.cols;
+	rows = img.rows;
+	cols = img.cols;
 	id = 0;
 	word = img;
-	visited = cv::Mat::zeros(n, m, CV_8U);
+	visited = cv::Mat::zeros(rows, cols, CV_8U);
 	regions.clear();
 	regionsID.clear();
 }
