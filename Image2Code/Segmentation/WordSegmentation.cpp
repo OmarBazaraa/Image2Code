@@ -1,7 +1,7 @@
 #include "WordSegmentation.h"
 
 void WordSegmentation::segment(const cv::Mat& img, vector<cv::Mat>& words) {
-	int spaceThreshold = 30; // TODO: to be calculated dynamically
+	int spaceThreshold = 35; // TODO: to be calculated dynamically
 	divideLine(img, words, spaceThreshold);
 }
 

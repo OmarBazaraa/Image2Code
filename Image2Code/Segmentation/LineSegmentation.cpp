@@ -1,7 +1,7 @@
 #include "LineSegmentation.h"
 
 void LineSegmentation::segment(const cv::Mat& img, vector<cv::Mat>& lines) {
-	int spaceThreshold = 30; // TODO: to be calculated dynamically
+	int spaceThreshold = 15; // TODO: to be calculated dynamically
 	divideImage(img, lines, spaceThreshold);
 }
 

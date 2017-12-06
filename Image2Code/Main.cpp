@@ -32,7 +32,7 @@ int main() {
 		// Preprocessing
 		cout << "Preprocessing..." << endl;
 		cv::Mat binaryImg = Utilities::preprocess(img);
-
+		
 		// Segmentation
 		cout << "Segmenting image..." << endl;
 		string str = segment(binaryImg);
@@ -40,6 +40,8 @@ int main() {
 		// Postprocessing
 		cout << "Postprocessing..." << endl;
 		string code = Utilities::postprocess(str);
+
+		cout << code << endl;
 	}
 	catch (const exception& ex) {
 		cout << "ERROR::" << ex.what() << endl;
@@ -91,7 +93,7 @@ string segment(const cv::Mat img) {
 				imwrite(pathChar + to_string(k) + ".jpg", chars[k]);
 
 				// Character classification
-				//output += Classifier::classify(chars[i]);
+				str += '*'; //Classifier::classify(chars[i]);
 			}
 
 			str += " ";
