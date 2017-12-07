@@ -1,19 +1,19 @@
 #include "LineSegmentation.h"
 
 void LineSegmentation::segment(const cv::Mat& img, vector<cv::Mat>& lines) {
-	int spaceThreshold = 15; // TODO: to be calculated dynamically
+	int spaceThreshold = 5; // TODO: to be calculated dynamically
 	divideImage(img, lines, spaceThreshold);
 }
 
 void LineSegmentation::divideImage(const cv::Mat& img, vector<cv::Mat>& lines, int threshold) {
 	int rows = img.rows;
 	int cols = img.cols;
-	vector<int> y_histogram(rows, 0);
+	vector<int> pixelsCount(rows, 0);
 
-	// Calculate Y histogram
+	// Calculate black pixels count in each row.
 	for (int i = 0; i < rows; ++i) {
 		for (int j = 0; j < cols; ++j) {
-			y_histogram[i] += (img.at<uchar>(i, j) == FORECOLOR);
+			pixelsCount[i] += (img.at<uchar>(i, j) == FORECOLOR);
 		}
 	}
 
@@ -23,19 +23,19 @@ void LineSegmentation::divideImage(const cv::Mat& img, vector<cv::Mat>& lines, i
 	vector<pair<int, int>> blankLines;
 
 	// Skip top blank rows
-	while (l < rows && y_histogram[l] == 0) {
+	while (l < rows && pixelsCount[l] == 0) {
 		l++;
 	}
 	blankLines.push_back({ 0, l - 1 });
 
 	// Skip bottom blank rows
-	while (r > l && y_histogram[r] == 0) {
+	while (r > l && pixelsCount[r] == 0) {
 		r--;
 	}
 
 	// Detect white spaces
 	for (int i = l; i <= r; ++i) {
-		if (y_histogram[i] > 0) {
+		if (pixelsCount[i] > 0) {
 			if (cnt > threshold) {
 				blankLines.push_back({ l, i - 1 });
 			}
