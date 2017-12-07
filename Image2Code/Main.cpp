@@ -68,7 +68,7 @@ string segment(const cv::Mat img) {
 
 	for (int i = 0; i < lines.size(); ++i) {
 		// Make output word directory
-		string pathWord = WORD_OUTPUT_PATH + string("Line") + to_string(i) + "\\";
+		string pathWord = WORD_OUTPUT_PATH + to_string(i) + "\\";
 		Utilities::makeDir(pathWord);
 		// Save line image
 		imwrite(pathLine + to_string(i) + ".jpg", lines[i]);
@@ -79,7 +79,7 @@ string segment(const cv::Mat img) {
 
 		for (int j = 0; j < words.size(); ++j) {
 			// Make output character directory
-			string pathChar = CHARACTER_OUTPUT_PATH + string("Line") + to_string(i) + "\\Word" + to_string(j) + "\\";
+			string pathChar = CHARACTER_OUTPUT_PATH + to_string(i) + "\\" + to_string(j) + "\\";
 			Utilities::makeDir(pathChar);
 			// Save word image
 			imwrite(pathWord + to_string(j) + ".jpg", words[j]);
