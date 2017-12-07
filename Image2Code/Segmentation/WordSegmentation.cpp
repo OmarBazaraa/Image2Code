@@ -67,10 +67,16 @@ int WordSegmentation::calcSpaceThreshold() {
 				sum += width;
 				num++;
 			}
+
+			if (width > 0) {
+				std::cout << width << ' ';
+			}
 			
 			width = 0;
 		}
 	}
+
+	cout << endl;
 
 	num = max(1, num);
 	int avgSpaceWidth = (sum + num - 1) / num;
@@ -90,12 +96,14 @@ void WordSegmentation::detectWhiteSpaces(int threshold) {
 
 	// Detect white spaces
 	for (int i = L; i <= R; ++i) {
+		// Character
 		if (pixelsCount[i] > 0) {
 			if (cnt > threshold) {
 				whiteSpaces.push_back({ prv, i - 1 });
 			}
 			cnt = 0;
 		}
+		// Space
 		else if (cnt++ == 0) {
 			prv = i;
 		}
@@ -116,7 +124,7 @@ void WordSegmentation::divideLine(vector<cv::Mat>& words) {
 		}
 
 		Mat word = line(cv::Rect(l, 0, r - l + 1, rows));
-		words.push_back(word.clone());
+		words.push_back(word);
 	}
 }
 

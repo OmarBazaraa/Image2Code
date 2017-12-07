@@ -28,9 +28,20 @@ public:
 	static cv::Mat loadImage(const string& path);
 
 	/**
+	 * Resize the given image if its size is above the maximum limit
+	 * while keeping the original aspect ratio.
+	 */
+	static void resizeImage(Mat& img, int maxWidth, int maxHeight);
+
+	/**
+	 * Perform gamma correction function to the given image.
+	 */
+	static void gammaCorrection(Mat& src, double gamma);
+
+	/**
 	 * Preprocess the given image.
 	 */
-	static cv::Mat preprocess(const cv::Mat& img);
+	static cv::Mat preprocess(cv::Mat& img);
 
 	/**
 	 * Postprocess the given code string.

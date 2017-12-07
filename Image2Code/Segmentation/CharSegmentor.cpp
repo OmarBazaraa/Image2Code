@@ -33,6 +33,14 @@ void CharSegmentor::segment(cv::Mat& img, vector<cv::Mat>& chars) {
 			regionsID[id] = id;
 			dfs(i, j);
 
+			int w = region.R - region.L + 1;
+			int h = region.D - region.U + 1;
+
+			// Ignore component if it is smaller than a certain threshold
+			if (min(w, h) <= IGNORE_SIZE_THRESHOLD) {
+				continue;
+			}
+
 			// Store character region
 			regions.push_back(region);
 		}
@@ -65,31 +73,32 @@ void CharSegmentor::extractChars(vector<cv::Mat>& chars) {
 
 void CharSegmentor::mergeRegions() {
 	vector<Region> tmp;
+	vector<bool> vis(regions.size(), 0);
 	sort(regions.begin(), regions.end());
 
 	for (int i = 0; i < regions.size(); ++i) {
-		tmp.push_back(regions[i]);
-
-		if (i + 1 >= regions.size()) {
-			break;
-		}
-
-		Region& p = tmp.back();
-		Region& q = regions[i + 1];
-
-		int commonHeight = min(p.D, q.D) - max(p.U, q.U) + 1;
-		int commonWidth = p.R - max(p.L, q.L) + 1;
-		int space = q.L - p.R + 1;
-		int width = min(q.R - q.L, p.R - p.L) + 1;
-
-		if (commonHeight > 0) {
+		if (vis[i]) {
 			continue;
 		}
 
-		if (commonWidth >= 0 || space * 100 <= width * MERGE_X_THRESHOLD) {
-			i++;
-			regionsID[q.id] = p.id;
-			p.merge(q);
+		tmp.push_back(regions[i]);
+		Region& p = tmp.back();
+
+		for (int j = i + 1; j < regions.size(); ++j) {
+			Region& q = regions[j];
+
+			if (q.L > p.R) {
+				break;
+			}
+			
+			int commonWidth = p.R - max(p.L, q.L) + 1;
+			int width = min(p.R - q.L, q.R - q.L) + 1;
+
+			if (commonWidth * 100 >= width * MERGE_X_THRESHOLD) {
+				vis[j] = 1;
+				regionsID[q.id] = p.id;
+				p.merge(q);
+			}
 		}
 	}
 

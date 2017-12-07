@@ -2,7 +2,7 @@
 
 cv::Mat Utilities::loadImage(const string& path) {
 	// Load grayscale image from file
-	Mat img = imread(path, CV_LOAD_IMAGE_GRAYSCALE);
+	cv::Mat img = cv::imread(path, CV_LOAD_IMAGE_GRAYSCALE);
 
 	// Check for invalid input
 	if (img.empty() || !img.data) {
@@ -14,8 +14,35 @@ cv::Mat Utilities::loadImage(const string& path) {
 	return img;
 }
 
+void Utilities::resizeImage(Mat& img, int maxWidth, int maxHeight) {
+	if (img.rows > img.cols) {
+		if (img.rows > maxHeight) {
+			double ratio = maxHeight / (double)img.rows;
+			cv::resize(img, img, cv::Size(0, 0), ratio, ratio);
+		}
+	}
+	else {
+		if (img.cols > maxWidth) {
+			double ratio = maxWidth / (double)img.cols;
+			cv::resize(img, img, cv::Size(0, 0), ratio, ratio);
+		}
+	}
+}
+
+void Utilities::gammaCorrection(Mat& src, double gamma) {
+	cv::Mat lookUpTable(1, 256, CV_8U);
+
+	uchar* p = lookUpTable.ptr();
+
+	for (int i = 0; i < 256; ++i) {
+		p[i] = cv::saturate_cast<uchar>(pow(i / 255.0, gamma) * 255.0);
+	}
+
+	cv::LUT(src, lookUpTable, src);
+}
+
 // Testing
-void adaptiveOtsuThreshold(const cv::Mat& src, cv::Mat& dst, int blockSize) {
+void adaptiveOtsuThreshold(cv::Mat& src, cv::Mat& dst, int blockSize) {
 	int rows = src.rows;
 	int cols = src.cols;
 	
@@ -36,7 +63,7 @@ void adaptiveOtsuThreshold(const cv::Mat& src, cv::Mat& dst, int blockSize) {
 }
 
 // Testing
-void customThreshold(const cv::Mat& src, cv::Mat& dst, int blockSize) {
+void customThreshold(cv::Mat& src, cv::Mat& dst, int blockSize) {
 	int rows = src.rows;
 	int cols = src.cols;
 
@@ -67,68 +94,33 @@ void customThreshold(const cv::Mat& src, cv::Mat& dst, int blockSize) {
 	cv::threshold(src, dst, thresholdVal, 255, cv::THRESH_BINARY);
 }
 
-// Testing
-void gammaCorrection(const Mat& src, cv::Mat& dst, double gamma) {
-	cv::Mat lookUpTable(1, 256, CV_8U);
+cv::Mat Utilities::preprocess(cv::Mat& img) {
+	cv::Mat resImg;
 
-	uchar* p = lookUpTable.ptr();
+	// Resize the image
+	//resizeImage(img, IMG_MAX_WIDTH, IMG_MAX_HEIGHT);
 
-	for (int i = 0; i < 256; ++i) {
-		p[i] = saturate_cast<uchar>(pow(i / 255.0, gamma) * 255.0);
-	}
-
-	cv::LUT(src, lookUpTable, dst);
-}
-
-cv::Mat Utilities::preprocess(const cv::Mat& img) {
 	// Apply noise reduction Gaussian filter
-	cv::Mat smoothedImg;
-	GaussianBlur(img, smoothedImg, Size(5, 5), 3, 3);
-	imwrite("Data\\0.blured.png", smoothedImg);
+	cv::GaussianBlur(img, resImg, cv::Size(5, 5), 3, 3);
+	cv::imwrite("Data\\0.blured.png", resImg);
 
 	// Fix image brightness
-	Mat gammaImg;
-	gammaCorrection(smoothedImg, gammaImg, 0.5);
-	imwrite("Data\\1.gamma.png", gammaImg);
+	gammaCorrection(resImg, 0.5);
+	cv::imwrite("Data\\1.gamma.png", resImg);
 	
-	// Apply basic thresholding
-	cv::Mat binaryImg;
-	//cv::threshold(smoothedImg, binaryImg, THRESHOLD, 255, cv::THRESH_BINARY);
-	cv::threshold(gammaImg, binaryImg, 0, 255, CV_THRESH_BINARY | CV_THRESH_OTSU);
-	imwrite("Data\\2.thresholded.png", binaryImg);
+	// Apply Otsu thresholding
+	cv::threshold(resImg, resImg, 0, 255, CV_THRESH_BINARY | CV_THRESH_OTSU);
+	imwrite("Data\\2.thresholded.png", resImg);
 	
 	// Connect characters
-	cv::Mat dilatedImg, erodedImg;
-	cv::Mat element = getStructuringElement(MORPH_CROSS, Size(3, 3));
-	cv::dilate(binaryImg, dilatedImg, element);
-	cv::erode(dilatedImg, erodedImg, element);
-	imwrite("Data\\3.dilated.png", dilatedImg);
-	imwrite("Data\\4.eroded.png", erodedImg);
+	cv::Mat tmp;
+	cv::Mat element = cv::getStructuringElement(MORPH_CROSS, Size(3, 3));
+	cv::dilate(resImg, tmp, element, cv::Point(-1, -1), 1);
+	cv::imwrite("Data\\3.dilated.png", tmp);
+	cv::erode(tmp, resImg, element, cv::Point(-1, -1), 1);
+	cv::imwrite("Data\\4.eroded.png", resImg);
 	
-	return erodedImg;
-
-	//// Apply adaptive Gaussian thresholding
-	//cv::Mat binaryImg(img.size(), img.type());
-	//cv::adaptiveThreshold(img, binaryImg, 255, cv::ADAPTIVE_THRESH_GAUSSIAN_C, cv::THRESH_BINARY, 25, 0.5);
-	//
-	//imwrite("Data\\thresholded.png", binaryImg);
-	//
-	//// Apply median filter to remove impulsive noise
-	//cv::Mat filterdImg;
-	//cv::medianBlur(binaryImg, filterdImg, 3);
-	//
-	//imwrite("Data\\filterd.png", filterdImg);
-	//
-	//// Connect characters
-	//cv::Mat dilatedImg, erodedImg;
-	//cv::Mat element = getStructuringElement(MORPH_CROSS, Size(3, 3));
-	//cv::erode(filterdImg, erodedImg, element);
-	//cv::dilate(erodedImg, dilatedImg, element);
-	//
-	//imwrite("Data\\eroded.png", binaryImg);
-	//imwrite("Data\\dilated.png", binaryImg);
-	//
-	//return dilatedImg;
+	return resImg;
 }
 
 string Utilities::postprocess(const string& str) {

@@ -1,14 +1,73 @@
 #include "LineSegmentation.h"
 
-void LineSegmentation::segment(const cv::Mat& img, vector<cv::Mat>& lines) {
+//
+// Static members declaration
+//
+int LineSegmentation::rows;
+int LineSegmentation::cols;
+int LineSegmentation::L;
+int LineSegmentation::R;
+cv::Mat LineSegmentation::img;
+vector<int> LineSegmentation::pixelsCount;
+vector<pair<int, int>> LineSegmentation::blankLines;
+//========================================================================
+
+void LineSegmentation::segment(cv::Mat& img, vector<cv::Mat>& lines) {
+	init(img);
 	int spaceThreshold = 5; // TODO: to be calculated dynamically
-	divideImage(img, lines, spaceThreshold);
+	detectBlankLines(spaceThreshold);
+	divideImage(lines);
 }
 
-void LineSegmentation::divideImage(const cv::Mat& img, vector<cv::Mat>& lines, int threshold) {
-	int rows = img.rows;
-	int cols = img.cols;
-	vector<int> pixelsCount(rows, 0);
+void LineSegmentation::detectBlankLines(int threshold) {
+	int prv = 0, cnt = 0;
+	blankLines.clear();
+
+	// Add top padding
+	blankLines.push_back({ 0, L - 1 });
+
+	// Detect white spaces
+	for (int i = L; i <= R; ++i) {
+		// Line
+		if (pixelsCount[i] > 0) {
+			if (cnt > threshold) {
+				blankLines.push_back({ prv, i - 1 });
+			}
+			cnt = 0;
+		}
+		// Blank line
+		else if (cnt++ == 0) {
+			prv = i;
+		}
+	}
+
+	// Add bottom padding
+	blankLines.push_back({ R + 1, rows - 1 });
+}
+
+void LineSegmentation::divideImage(vector<cv::Mat>& lines) {
+	// Detect words between two successive white spaces
+	for (int i = 1; i < blankLines.size(); ++i) {
+		int l = blankLines[i - 1].second + 1;
+		int r = blankLines[i].first - 1;
+
+		if (r <= l) {
+			continue;
+		}
+
+		Mat line = img(cv::Rect(0, l, cols, r - l + 1));
+		lines.push_back(line);
+	}
+}
+
+void LineSegmentation::init(cv::Mat& img) {
+	rows = img.rows;
+	cols = img.cols;
+	LineSegmentation::img = img;
+	L = 0;
+	R = rows - 1;
+	pixelsCount.clear();
+	pixelsCount.resize(rows, 0);
 
 	// Calculate black pixels count in each row.
 	for (int i = 0; i < rows; ++i) {
@@ -17,51 +76,11 @@ void LineSegmentation::divideImage(const cv::Mat& img, vector<cv::Mat>& lines, i
 		}
 	}
 
-	int l = 0;
-	int r = rows - 1;
-	int cnt = 0;
-	vector<pair<int, int>> blankLines;
-
-	// Skip top blank rows
-	while (l < rows && pixelsCount[l] == 0) {
-		l++;
+	// Detect image top and bottom paddings
+	while (L <= R && pixelsCount[L] == 0) {
+		L++;
 	}
-	blankLines.push_back({ 0, l - 1 });
-
-	// Skip bottom blank rows
-	while (r > l && pixelsCount[r] == 0) {
-		r--;
-	}
-
-	// Detect white spaces
-	for (int i = l; i <= r; ++i) {
-		if (pixelsCount[i] > 0) {
-			if (cnt > threshold) {
-				blankLines.push_back({ l, i - 1 });
-			}
-
-			cnt = 0;
-		}
-		else {
-			cnt++;
-
-			if (cnt == 1) {
-				l = i;
-			}
-		}
-	}
-	blankLines.push_back({ r + 1, rows - 1 });
-
-	// Detect words between two successive white spaces
-	for (int i = 1; i < blankLines.size(); ++i) {
-		l = blankLines[i - 1].second + 1;
-		r = blankLines[i].first - 1;
-
-		if (r <= l) {
-			continue;
-		}
-
-		Mat line = img(cv::Rect(0, l, cols, r - l + 1));
-		lines.push_back(line.clone());
+	while (R >= L && pixelsCount[R] == 0) {
+		R--;
 	}
 }

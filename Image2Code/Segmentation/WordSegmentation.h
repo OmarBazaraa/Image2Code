@@ -40,7 +40,7 @@ private:
 	static int calcSpaceThreshold();
 
 	/**
-	 * Detect the white spaces in the given line image.
+	 * Detect the white spaces between words in the given line image.
 	 */
 	static void detectWhiteSpaces(int threshold);
 

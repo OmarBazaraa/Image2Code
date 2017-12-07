@@ -17,6 +17,9 @@
 #define BACKCOLOR               255
 #define FORECOLOR               0
 
+#define IMG_MAX_WIDTH			1000
+#define IMG_MAX_HEIGHT			1500
+
 //
 // LINE SEGMENTATION
 //

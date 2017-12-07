@@ -15,7 +15,7 @@ using namespace cv;
 
 
 // Function prototypes
-string segment(const cv::Mat img);
+string segment(cv::Mat img);
 
 // Main program driver function
 int main() {
@@ -53,7 +53,7 @@ int main() {
 	return 0;
 }
 
-string segment(const cv::Mat img) {
+string segment(cv::Mat img) {
 	string str;
 
 	// Make output line directory

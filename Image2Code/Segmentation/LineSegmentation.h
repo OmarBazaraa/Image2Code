@@ -16,11 +16,17 @@ using namespace cv;
 
 
 class LineSegmentation {
+private:
+	static int rows, cols, L, R;
+	static cv::Mat img;
+	static vector<int> pixelsCount;
+	static vector<pair<int, int>> blankLines;
+
 public:
 	/**
 	 * Segment the given text image into lines.
 	 */
-	static void segment(const cv::Mat& img, vector<cv::Mat>& lines);
+	static void segment(cv::Mat& img, vector<cv::Mat>& lines);
 
 private:
 	/**
@@ -29,7 +35,17 @@ private:
 	LineSegmentation() {}
 
 	/**
-	 * Divide the given line into words according to the given space threshold.
+	 * Detect the white spaces between the lines in the given text image.
 	 */
-	static void divideImage(const cv::Mat& img, vector<cv::Mat>& lines, int threshold);
+	static void detectBlankLines(int threshold);
+
+	/**
+	* Divide the given line into words according to the white spaces.
+	*/
+	static void divideImage(vector<cv::Mat>& lines);
+
+	/**
+	 * Initialize word segmentation variables.
+	 */
+	static void init(cv::Mat& img);
 };
