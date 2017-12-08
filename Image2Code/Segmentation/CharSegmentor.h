@@ -17,8 +17,7 @@ using namespace cv;
 
 
 // Constants
-const int MERGE_X_THRESHOLD = 50;
-const int IGNORE_SIZE_THRESHOLD = 4;
+const int IGNORE_SIZE_THRESHOLD = 3;
 const int dirR[8] = { -1, -1, 0, 1, 1, 1, 0, -1 };
 const int dirC[8] = { 0, 1, 1, 1, 0, -1, -1, -1 };
 
@@ -60,13 +59,20 @@ public:
 	/**
 	 * Segment the given word image into characters.
 	 */
-	static void segment(cv::Mat& img, vector<cv::Mat>& chars);
+	static void segment(cv::Mat& img, vector<cv::Mat>& chars, int avgCharWidth);
 
 private:
 	/**
 	 * Private constructor (i.e. static class).
 	 */
 	CharSegmentor() {}
+
+
+	/**
+	 * Detect all connected components in the given word image 
+	 * that are greater than a certain threshold.
+	 */
+	static void detectComponents();
 
 	/**
 	 * Extract regions of the same id into a matrix, exculding overlapping regions
@@ -77,7 +83,7 @@ private:
 	/**
 	 * Merge overlapping regions into one region.
 	 */
-	static void mergeRegions();
+	static void mergeRegions(int avgCharWidth);
 
 	/**
 	 * Start depth first search from the given point to get the boundaries

@@ -3,7 +3,7 @@
 //
 // PATHS
 //
-#define INPUT_IMG               "Data\\Input\\code2.jpg"
+#define INPUT_IMG               "Data\\Input\\extreme_test.jpg"
 #define PREPROCESSED_IMG        "Data\\Output\\preprocessed.jpg"
 #define OUTPUT_PATH             "Data\\Output"
 #define LINE_OUTPUT_PATH        "Data\\Output\\Lines\\"

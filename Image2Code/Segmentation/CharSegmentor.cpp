@@ -15,10 +15,14 @@ Region CharSegmentor::region;
 //========================================================================
 
 
-void CharSegmentor::segment(cv::Mat& img, vector<cv::Mat>& chars) {
-	// Initialization
+void CharSegmentor::segment(cv::Mat& img, vector<cv::Mat>& chars, int threshold) {
 	init(img);
+	detectComponents();
+	mergeRegions(threshold);
+	extractChars(chars);
+}
 
+void CharSegmentor::detectComponents() {
 	// Scan word matrix
 	for (int i = 0; i < rows; ++i) {
 		for (int j = 0; j < cols; ++j) {
@@ -45,10 +49,6 @@ void CharSegmentor::segment(cv::Mat& img, vector<cv::Mat>& chars) {
 			regions.push_back(region);
 		}
 	}
-
-	//preprocessRegions();
-	mergeRegions();
-	extractChars(chars);
 }
 
 void CharSegmentor::extractChars(vector<cv::Mat>& chars) {
@@ -71,11 +71,11 @@ void CharSegmentor::extractChars(vector<cv::Mat>& chars) {
 	}
 }
 
-void CharSegmentor::mergeRegions() {
+void CharSegmentor::mergeRegions(int avgCharWidth) {
 	vector<Region> tmp;
 	vector<bool> vis(regions.size(), 0);
 	sort(regions.begin(), regions.end());
-
+	
 	for (int i = 0; i < regions.size(); ++i) {
 		if (vis[i]) {
 			continue;
@@ -87,18 +87,18 @@ void CharSegmentor::mergeRegions() {
 		for (int j = i + 1; j < regions.size(); ++j) {
 			Region& q = regions[j];
 
-			if (q.L > p.R) {
+			int widthP = p.R - p.L - 1;
+			int widthQ = q.R - q.L - 1;
+
+			int mergeWidth = q.R - min(p.L, q.L) + 1;
+
+			if ((mergeWidth - max(widthP, widthQ)) * 2 > avgCharWidth) {
 				break;
 			}
 			
-			int commonWidth = p.R - max(p.L, q.L) + 1;
-			int width = min(p.R - q.L, q.R - q.L) + 1;
-
-			if (commonWidth * 100 >= width * MERGE_X_THRESHOLD) {
-				vis[j] = 1;
-				regionsID[q.id] = p.id;
-				p.merge(q);
-			}
+			vis[j] = 1;
+			regionsID[q.id] = p.id;
+			p.merge(q);
 		}
 	}
 

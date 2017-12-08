@@ -62,6 +62,8 @@ string segment(cv::Mat img) {
 	// Save preprocessed image
 	imwrite(PREPROCESSED_IMG, img);
 
+	Utilities::makeDir("Data\\Output\\Chars\\");
+
 	// Line segmentation
 	vector<cv::Mat> lines;
 	LineSegmentation::segment(img, lines);
@@ -75,8 +77,8 @@ string segment(cv::Mat img) {
 
 		// Word segmentation
 		vector<cv::Mat> words;
-		WordSegmentation::segment(lines[i], words);
-
+		int avgCharWidth = WordSegmentation::segment(lines[i], words);
+		
 		for (int j = 0; j < words.size(); ++j) {
 			// Make output character directory
 			string pathChar = CHARACTER_OUTPUT_PATH + to_string(i) + "\\" + to_string(j) + "\\";
@@ -86,11 +88,13 @@ string segment(cv::Mat img) {
 
 			// Character segmentation
 			vector<cv::Mat> chars;
-			CharSegmentor::segment(words[j], chars);
+			CharSegmentor::segment(words[j], chars, avgCharWidth);
 
 			for (int k = 0; k < chars.size(); ++k) {
 				// Save character image
 				imwrite(pathChar + to_string(k) + ".jpg", chars[k]);
+
+				imwrite("Data\\Output\\Chars\\" + to_string(i) + "_" + to_string(j) + "_" + to_string(k) + ".jpg", chars[k]);
 
 				// Character classification
 				str += '*'; //Classifier::classify(chars[i]);

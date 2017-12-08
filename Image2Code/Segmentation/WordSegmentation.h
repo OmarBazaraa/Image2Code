@@ -26,7 +26,7 @@ public:
 	/**
 	 * Segment the given line image into words.
 	 */
-	static void segment(cv::Mat& img, vector<cv::Mat>& words);
+	static int segment(cv::Mat& img, vector<cv::Mat>& words);
 
 private:
 	/**
@@ -35,9 +35,14 @@ private:
 	WordSegmentation() {}
 
 	/**
+	 * Calculate average characters width in the given line image.
+	 */
+	static int calcAvgCharWidth();
+
+	/**
 	 * Calculate space threshold between words.
 	 */
-	static int calcSpaceThreshold();
+	static int calcAvgSpaceWidth(int avgCharWidth);
 
 	/**
 	 * Detect the white spaces between words in the given line image.

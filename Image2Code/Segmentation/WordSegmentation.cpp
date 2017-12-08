@@ -1,7 +1,5 @@
 #include "WordSegmentation.h"
 
-#include <iostream>
-
 //
 // Static members declaration
 //
@@ -15,20 +13,24 @@ vector<pair<int, int>> WordSegmentation::whiteSpaces;
 //========================================================================
 
 
-void WordSegmentation::segment(cv::Mat& img, vector<cv::Mat>& words) {
+int WordSegmentation::segment(cv::Mat& img, vector<cv::Mat>& words) {
 	init(img);
-	int spaceThreshold = calcSpaceThreshold();
-	detectWhiteSpaces(spaceThreshold);
+
+	int avgCharWidth = calcAvgCharWidth();
+	int avgSpaceWidth = calcAvgSpaceWidth(avgCharWidth);
+	// Calculate the threshold space between two words as the average of the two widthes
+	int thresh = (avgCharWidth + avgSpaceWidth + 1) / 2;
+
+	detectWhiteSpaces(thresh);
 	divideLine(words);
+
+	return thresh ;
 }
 
-int WordSegmentation::calcSpaceThreshold() {
-	int sum, num, width;
+int WordSegmentation::calcAvgCharWidth() {
+	int sum = 0, num = 0, width = 0;
 
-	//
 	// Calculate average characters width
-	//
-	sum = num = width = 0;
 	for (int i = L; i <= R; ++i) {
 		// Character
 		if (pixelsCount[i] > 0) {
@@ -41,7 +43,7 @@ int WordSegmentation::calcSpaceThreshold() {
 			width = 0;
 		}
 	}
-	
+
 	// Take the last character into consideration 
 	if (width > 0) {
 		sum += width;
@@ -50,11 +52,14 @@ int WordSegmentation::calcSpaceThreshold() {
 
 	num = max(1, num);
 	int avgCharWidth = sum / num;
-	// -------------------------------------------------------------------------
 
-	//
+	return avgCharWidth;
+}
+
+int WordSegmentation::calcAvgSpaceWidth(int avgCharWidth) {
+	int sum = 0, num = 0, width = 0;
+	
 	// Calculate average white spaces width that are greater than @avgCharWidth
-	//
 	sum = num = width = 0;
 	for (int i = L; i <= R; ++i) {
 		// Space
@@ -67,24 +72,14 @@ int WordSegmentation::calcSpaceThreshold() {
 				sum += width;
 				num++;
 			}
-
-			if (width > 0) {
-				std::cout << width << ' ';
-			}
 			
 			width = 0;
 		}
 	}
 
-	cout << endl;
-
 	num = max(1, num);
 	int avgSpaceWidth = (sum + num - 1) / num;
-	// -------------------------------------------------------------------------
-
-	// Calculate the threshold as the average of the two widthes
-	int thresh = (avgCharWidth + avgSpaceWidth + 1) / 2;
-	return thresh;
+	return avgSpaceWidth;
 }
 
 void WordSegmentation::detectWhiteSpaces(int threshold) {
