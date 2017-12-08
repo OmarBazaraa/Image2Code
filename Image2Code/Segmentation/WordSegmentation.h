@@ -16,11 +16,18 @@ using namespace cv;
 
 
 class WordSegmentation {
+public:
+	static int charsWidth, charsCount;
+	static int spacesWidth, spacesCount;
+
 private:
-	static int rows, cols, L, R;
-	static cv::Mat line;
-	static vector<int> pixelsCount;
-	static vector<pair<int, int>> whiteSpaces;
+	static int rows;
+	static int cols;
+	static int L;								// First black column from the left
+	static int R;								// First black column from the right
+	static cv::Mat line;						// Line image
+	static vector<int> pixelsCount;				// Black pixels count in each column
+	static vector<pair<int, int>> whiteSpaces;	// Vector holding intervals of white spaces
 
 public:
 	/**

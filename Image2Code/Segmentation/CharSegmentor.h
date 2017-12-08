@@ -11,6 +11,7 @@
 
 // Custom libraries
 #include "../Utilities/Constants.h"
+#include "WordSegmentation.h"
 
 using namespace std;
 using namespace cv;

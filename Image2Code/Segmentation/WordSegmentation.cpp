@@ -7,6 +7,10 @@ int WordSegmentation::rows;
 int WordSegmentation::cols;
 int WordSegmentation::L;
 int WordSegmentation::R;
+int WordSegmentation::charsWidth = 0;
+int WordSegmentation::charsCount = 0;
+int WordSegmentation::spacesWidth = 0;
+int WordSegmentation::spacesCount = 0;
 cv::Mat WordSegmentation::line;
 vector<int> WordSegmentation::pixelsCount;
 vector<pair<int, int>> WordSegmentation::whiteSpaces;
@@ -24,11 +28,11 @@ int WordSegmentation::segment(cv::Mat& img, vector<cv::Mat>& words) {
 	detectWhiteSpaces(thresh);
 	divideLine(words);
 
-	return thresh ;
+	return thresh;
 }
 
 int WordSegmentation::calcAvgCharWidth() {
-	int sum = 0, num = 0, width = 0;
+	int width = 0;
 
 	// Calculate average characters width
 	for (int i = L; i <= R; ++i) {
@@ -38,29 +42,25 @@ int WordSegmentation::calcAvgCharWidth() {
 		}
 		// Space
 		else if (width > 0) {
-			sum += width;
-			num++;
+			charsWidth += width;
+			charsCount++;
 			width = 0;
 		}
 	}
 
 	// Take the last character into consideration 
 	if (width > 0) {
-		sum += width;
-		num++;
+		charsWidth += width;
+		charsCount++;
 	}
 
-	num = max(1, num);
-	int avgCharWidth = sum / num;
-
-	return avgCharWidth;
+	return charsWidth / max(1, charsCount);
 }
 
 int WordSegmentation::calcAvgSpaceWidth(int avgCharWidth) {
-	int sum = 0, num = 0, width = 0;
+	int width = 0;
 	
 	// Calculate average white spaces width that are greater than @avgCharWidth
-	sum = num = width = 0;
 	for (int i = L; i <= R; ++i) {
 		// Space
 		if (pixelsCount[i] == 0) {
@@ -69,17 +69,16 @@ int WordSegmentation::calcAvgSpaceWidth(int avgCharWidth) {
 		// Character
 		else {
 			if (width > avgCharWidth) {
-				sum += width;
-				num++;
+				spacesWidth += width;
+				spacesCount++;
 			}
 			
 			width = 0;
 		}
 	}
 
-	num = max(1, num);
-	int avgSpaceWidth = (sum + num - 1) / num;
-	return avgSpaceWidth;
+	int cnt = max(1, spacesCount);
+	return (spacesWidth + cnt - 1) / cnt;
 }
 
 void WordSegmentation::detectWhiteSpaces(int threshold) {
@@ -131,6 +130,8 @@ void WordSegmentation::init(cv::Mat& img) {
 	R = cols - 1;
 	pixelsCount.clear();
 	pixelsCount.resize(cols, 0);
+
+	charsWidth = charsCount = spacesWidth = spacesCount = 0;
 
 	// Calculate black pixels count in each column
 	for (int i = 0; i < cols; ++i) {

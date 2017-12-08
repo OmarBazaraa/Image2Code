@@ -105,8 +105,8 @@ cv::Mat Utilities::preprocess(cv::Mat& img) {
 	cv::imwrite("Data\\0.blured.png", resImg);
 
 	// Fix image brightness
-	gammaCorrection(resImg, 0.5);
-	cv::imwrite("Data\\1.gamma.png", resImg);
+	//gammaCorrection(resImg, 0.5);
+	//cv::imwrite("Data\\1.gamma.png", resImg);
 	
 	// Apply Otsu thresholding
 	cv::threshold(resImg, resImg, 0, 255, CV_THRESH_BINARY | CV_THRESH_OTSU);

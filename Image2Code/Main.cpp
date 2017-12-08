@@ -14,8 +14,16 @@ using namespace std;
 using namespace cv;
 
 
+// Global variables
+string str;
+int avgCharWidth;
+
 // Function prototypes
-string segment(cv::Mat img);
+void segment(cv::Mat& img);
+void processLine(cv::Mat& lineImg, const string& imgName);
+void processWord(cv::Mat& wordImg, const string& imgName);
+void processChar(cv::Mat& charImg, const string& imgName);
+
 
 // Main program driver function
 int main() {
@@ -24,6 +32,9 @@ int main() {
 	try {
 		// Clear previous output directory
 		Utilities::removeDir(OUTPUT_PATH);
+		Utilities::makeDir(LINE_OUTPUT_PATH);
+		Utilities::makeDir(WORD_OUTPUT_PATH);
+		Utilities::makeDir(CHARACTER_OUTPUT_PATH);
 
 		// Load image
 		cout << "Loading image " << INPUT_IMG << "..." << endl;
@@ -35,7 +46,7 @@ int main() {
 		
 		// Segmentation
 		cout << "Segmenting image..." << endl;
-		string str = segment(binaryImg);
+		segment(binaryImg);
 
 		// Postprocessing
 		cout << "Postprocessing..." << endl;
@@ -53,57 +64,61 @@ int main() {
 	return 0;
 }
 
-string segment(cv::Mat img) {
-	string str;
-
-	// Make output line directory
-	string pathLine = LINE_OUTPUT_PATH;
-	Utilities::makeDir(pathLine);
+//
+void segment(cv::Mat& img) {
 	// Save preprocessed image
 	imwrite(PREPROCESSED_IMG, img);
 
-	Utilities::makeDir("Data\\Output\\Chars\\");
-
+	// Clear variables
+	str = "";
+	avgCharWidth = 0;
+	
 	// Line segmentation
 	vector<cv::Mat> lines;
 	LineSegmentation::segment(img, lines);
 
 	for (int i = 0; i < lines.size(); ++i) {
-		// Make output word directory
-		string pathWord = WORD_OUTPUT_PATH + to_string(i) + "\\";
-		Utilities::makeDir(pathWord);
-		// Save line image
-		imwrite(pathLine + to_string(i) + ".jpg", lines[i]);
+		processLine(lines[i], to_string(i));
+	}
+}
 
-		// Word segmentation
-		vector<cv::Mat> words;
-		int avgCharWidth = WordSegmentation::segment(lines[i], words);
-		
-		for (int j = 0; j < words.size(); ++j) {
-			// Make output character directory
-			string pathChar = CHARACTER_OUTPUT_PATH + to_string(i) + "\\" + to_string(j) + "\\";
-			Utilities::makeDir(pathChar);
-			// Save word image
-			imwrite(pathWord + to_string(j) + ".jpg", words[j]);
+//
+void processLine(cv::Mat& lineImg, const string& imgName) {
+	// Save line image
+	imwrite(LINE_OUTPUT_PATH + imgName + ".jpg", lineImg);
 
-			// Character segmentation
-			vector<cv::Mat> chars;
-			CharSegmentor::segment(words[j], chars, avgCharWidth);
-
-			for (int k = 0; k < chars.size(); ++k) {
-				// Save character image
-				imwrite(pathChar + to_string(k) + ".jpg", chars[k]);
-
-				imwrite("Data\\Output\\Chars\\" + to_string(i) + "_" + to_string(j) + "_" + to_string(k) + ".jpg", chars[k]);
-
-				// Character classification
-				str += '*'; //Classifier::classify(chars[i]);
-			}
-
-			str += " ";
-		}
-		str += "\n";
+	// Word segmentation
+	vector<cv::Mat> words;
+	avgCharWidth = WordSegmentation::segment(lineImg, words);
+	
+	for (int i = 0; i < words.size(); ++i) {
+		processWord(words[i], imgName + "_" + to_string(i));
 	}
 
-	return str;
+	str += "\n";
+}
+
+//
+void processWord(cv::Mat& wordImg, const string& imgName) {
+	// Save word image
+	imwrite(WORD_OUTPUT_PATH + imgName + ".jpg", wordImg);
+
+	// Character segmentation
+	vector<cv::Mat> chars;
+	CharSegmentor::segment(wordImg, chars, avgCharWidth);
+
+	for (int i = 0; i < chars.size(); ++i) {
+		processChar(chars[i], imgName + "_" + to_string(i));
+	}
+
+	str += " ";
+}
+
+//
+void processChar(cv::Mat& charImg, const string& imgName) {
+	// Save character image
+	imwrite(CHARACTER_OUTPUT_PATH + imgName + ".jpg", charImg);
+
+	// Character classification
+	str += '*'; //Classifier::classify(chars[i]);
 }

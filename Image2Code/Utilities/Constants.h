@@ -3,12 +3,12 @@
 //
 // PATHS
 //
-#define INPUT_IMG               "Data\\Input\\extreme_test.jpg"
+#define INPUT_IMG               "Data\\Input\\sample_1.jpg"
 #define PREPROCESSED_IMG        "Data\\Output\\preprocessed.jpg"
 #define OUTPUT_PATH             "Data\\Output"
-#define LINE_OUTPUT_PATH        "Data\\Output\\Lines\\"
-#define WORD_OUTPUT_PATH        "Data\\Output\\Words\\"
-#define CHARACTER_OUTPUT_PATH   "Data\\Output\\Characters\\"
+#define LINE_OUTPUT_PATH        "Data\\Output\\0.Lines\\"
+#define WORD_OUTPUT_PATH        "Data\\Output\\1.Words\\"
+#define CHARACTER_OUTPUT_PATH   "Data\\Output\\2.Chars\\"
 #define CODE_OUTPUT_PATH        "Data\\code.cpp"
 
 //
@@ -17,16 +17,5 @@
 #define BACKCOLOR               255
 #define FORECOLOR               0
 
-#define IMG_MAX_WIDTH			1000
-#define IMG_MAX_HEIGHT			1500
-
-//
-// LINE SEGMENTATION
-//
-#define CHUNKS_NUMBER           20
-#define TEST_LINE_COLOR         Vec3b(255, 0, 255) // Magenta color.
-
-//
-// CHAR SEGMENTATION
-//
-#define THRESHOLD               200
+#define IMG_MAX_WIDTH           1000
+#define IMG_MAX_HEIGHT          1500

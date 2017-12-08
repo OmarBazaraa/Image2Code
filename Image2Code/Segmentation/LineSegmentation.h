@@ -17,10 +17,13 @@ using namespace cv;
 
 class LineSegmentation {
 private:
-	static int rows, cols, L, R;
-	static cv::Mat img;
-	static vector<int> pixelsCount;
-	static vector<pair<int, int>> blankLines;
+	static int rows;
+	static int cols;
+	static int L;								// First black row from the top
+	static int R;								// First black row from the bottom
+	static cv::Mat img;							// Text image
+	static vector<int> pixelsCount;				// Black pixels count in each row
+	static vector<pair<int, int>> blankLines;	// Vector holding intervals of white rows
 
 public:
 	/**
