@@ -9,6 +9,7 @@
 #include <opencv2/highgui/highgui.hpp>
 
 // Custom libraries
+#include "Segmentation.h"
 #include "../Utilities/Constants.h"
 
 using namespace std;
@@ -16,6 +17,8 @@ using namespace cv;
 
 
 class LineSegmentation {
+	friend class Segmentation;
+
 private:
 	static int rows;
 	static int cols;

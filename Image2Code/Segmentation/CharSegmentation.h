@@ -10,8 +10,8 @@
 #include <opencv2/highgui/highgui.hpp>
 
 // Custom libraries
+#include "Segmentation.h"
 #include "../Utilities/Constants.h"
-#include "WordSegmentation.h"
 
 using namespace std;
 using namespace cv;
@@ -45,7 +45,9 @@ struct Region {
 	}
 };
 
-class CharSegmentor {
+class CharSegmentation {
+	friend class Segmentation;
+
 private:
 	static int rows;
 	static int cols;
@@ -66,7 +68,7 @@ private:
 	/**
 	 * Private constructor (i.e. static class).
 	 */
-	CharSegmentor() {}
+	CharSegmentation() {}
 
 
 	/**

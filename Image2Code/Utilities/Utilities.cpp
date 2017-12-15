@@ -2,7 +2,7 @@
 
 cv::Mat Utilities::loadImage(const string& path) {
 	// Load grayscale image from file
-	cv::Mat img = cv::imread(path, CV_LOAD_IMAGE_GRAYSCALE);
+	cv::Mat img = cv::imread(path, CV_LOAD_IMAGE_COLOR);
 
 	// Check for invalid input
 	if (img.empty() || !img.data) {
@@ -94,37 +94,16 @@ void customThreshold(cv::Mat& src, cv::Mat& dst, int blockSize) {
 	cv::threshold(src, dst, thresholdVal, 255, cv::THRESH_BINARY);
 }
 
-cv::Mat Utilities::preprocess(cv::Mat& img) {
-	cv::Mat resImg;
+void Utilities::drawRect(Mat& img, int x, int y, int w, int h, Vec3b color) {
+	for (int i = 0; i < w; ++i) {
+		img.at<Vec3b>(y, x + i) = color;
+		img.at<Vec3b>(y + h - 1, x + i) = color;
+	}
 
-	// Resize the image
-	//resizeImage(img, IMG_MAX_WIDTH, IMG_MAX_HEIGHT);
-
-	// Apply noise reduction Gaussian filter
-	cv::GaussianBlur(img, resImg, cv::Size(5, 5), 3, 3);
-	cv::imwrite("Data\\0.blured.png", resImg);
-
-	// Fix image brightness
-	//gammaCorrection(resImg, 0.5);
-	//cv::imwrite("Data\\1.gamma.png", resImg);
-	
-	// Apply Otsu thresholding
-	cv::threshold(resImg, resImg, 0, 255, CV_THRESH_BINARY | CV_THRESH_OTSU);
-	imwrite("Data\\2.thresholded.png", resImg);
-	
-	// Connect characters
-	cv::Mat tmp;
-	cv::Mat element = cv::getStructuringElement(MORPH_CROSS, Size(3, 3));
-	cv::dilate(resImg, tmp, element, cv::Point(-1, -1), 1);
-	cv::imwrite("Data\\3.dilated.png", tmp);
-	cv::erode(tmp, resImg, element, cv::Point(-1, -1), 1);
-	cv::imwrite("Data\\4.eroded.png", resImg);
-	
-	return resImg;
-}
-
-string Utilities::postprocess(const string& str) {
-	return str;
+	for (int i = 0; i < h; ++i) {
+		img.at<Vec3b>(y + i, x) = color;
+		img.at<Vec3b>(y + i, x + w - 1) = color;
+	}
 }
 
 void Utilities::makeDir(const string& dir) {

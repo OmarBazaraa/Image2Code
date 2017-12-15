@@ -12,6 +12,7 @@ vector<int> LineSegmentation::pixelsCount;
 vector<pair<int, int>> LineSegmentation::blankLines;
 //========================================================================
 
+
 void LineSegmentation::segment(cv::Mat& img, vector<cv::Mat>& lines) {
 	init(img);
 	int spaceThreshold = 5; // TODO: to be calculated dynamically

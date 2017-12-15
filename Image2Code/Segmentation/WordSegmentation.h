@@ -9,6 +9,7 @@
 #include <opencv2/highgui/highgui.hpp>
 
 // Custom libraries
+#include "Segmentation.h"
 #include "../Utilities/Constants.h"
 
 using namespace std;
@@ -16,15 +17,15 @@ using namespace cv;
 
 
 class WordSegmentation {
-public:
-	static int charsWidth, charsCount;
-	static int spacesWidth, spacesCount;
+	friend class Segmentation;
 
 private:
 	static int rows;
 	static int cols;
 	static int L;								// First black column from the left
 	static int R;								// First black column from the right
+	static int charsWidth, charsCount;
+	static int spacesWidth, spacesCount;
 	static cv::Mat line;						// Line image
 	static vector<int> pixelsCount;				// Black pixels count in each column
 	static vector<pair<int, int>> whiteSpaces;	// Vector holding intervals of white spaces

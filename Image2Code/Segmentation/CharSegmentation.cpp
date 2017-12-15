@@ -1,28 +1,28 @@
 #pragma once
-#include "CharSegmentor.h"
+#include "CharSegmentation.h"
 
 //
 // Static members declaration
 //
-int CharSegmentor::rows;
-int CharSegmentor::cols;
-int CharSegmentor::id;
-cv::Mat CharSegmentor::word;
-cv::Mat CharSegmentor::visited;
-vector<Region> CharSegmentor::regions;
-map<int, int> CharSegmentor::regionsID;
-Region CharSegmentor::region;
+int CharSegmentation::rows;
+int CharSegmentation::cols;
+int CharSegmentation::id;
+cv::Mat CharSegmentation::word;
+cv::Mat CharSegmentation::visited;
+vector<Region> CharSegmentation::regions;
+map<int, int> CharSegmentation::regionsID;
+Region CharSegmentation::region;
 //========================================================================
 
 
-void CharSegmentor::segment(cv::Mat& img, vector<cv::Mat>& chars, int threshold) {
+void CharSegmentation::segment(cv::Mat& img, vector<cv::Mat>& chars, int threshold) {
 	init(img);
 	detectComponents();
 	mergeRegions(threshold);
 	extractChars(chars);
 }
 
-void CharSegmentor::detectComponents() {
+void CharSegmentation::detectComponents() {
 	// Scan word matrix
 	for (int i = 0; i < rows; ++i) {
 		for (int j = 0; j < cols; ++j) {
@@ -51,7 +51,7 @@ void CharSegmentor::detectComponents() {
 	}
 }
 
-void CharSegmentor::extractChars(vector<cv::Mat>& chars) {
+void CharSegmentation::extractChars(vector<cv::Mat>& chars) {
 	for (auto& r : regions) {
 		int w = r.R - r.L + 1;
 		int h = r.D - r.U + 1;
@@ -71,7 +71,7 @@ void CharSegmentor::extractChars(vector<cv::Mat>& chars) {
 	}
 }
 
-void CharSegmentor::mergeRegions(int avgCharWidth) {
+void CharSegmentation::mergeRegions(int avgCharWidth) {
 	vector<Region> tmp;
 	vector<bool> vis(regions.size(), 0);
 	sort(regions.begin(), regions.end());
@@ -105,7 +105,7 @@ void CharSegmentor::mergeRegions(int avgCharWidth) {
 	regions.swap(tmp);
 }
 
-void CharSegmentor::dfs(int row, int col) {
+void CharSegmentation::dfs(int row, int col) {
 	// Update boundries
 	region.U = min(region.U, row);
 	region.L = min(region.L, col);
@@ -126,7 +126,7 @@ void CharSegmentor::dfs(int row, int col) {
 	}
 }
 
-bool CharSegmentor::valid(int row, int col) {
+bool CharSegmentation::valid(int row, int col) {
 	return (
 		row >= 0 && row < rows &&
 		col >= 0 && col < cols &&
@@ -134,7 +134,7 @@ bool CharSegmentor::valid(int row, int col) {
 	);
 }
 
-void CharSegmentor::init(cv::Mat& img) {
+void CharSegmentation::init(cv::Mat& img) {
 	rows = img.rows;
 	cols = img.cols;
 	id = 0;

@@ -39,14 +39,10 @@ public:
 	static void gammaCorrection(Mat& src, double gamma);
 
 	/**
-	 * Preprocess the given image.
+	 * Draw rectangle with the specified color
+	 * starting from the given upper left point with the given width and height.
 	 */
-	static cv::Mat preprocess(cv::Mat& img);
-
-	/**
-	 * Postprocess the given code string.
-	 */
-	static string postprocess(const string& str);
+	static void drawRect(Mat& img, int x, int y, int w, int h, Vec3b color);
 
 	/**
 	 * Make a new directory at the given path.
