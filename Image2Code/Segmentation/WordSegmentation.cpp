@@ -131,7 +131,7 @@ void WordSegmentation::init(cv::Mat& img) {
 	pixelsCount.clear();
 	pixelsCount.resize(cols, 0);
 
-	charsWidth = charsCount = spacesWidth = spacesCount = 0;
+	//charsWidth = charsCount = spacesWidth = spacesCount = 0;
 
 	// Calculate black pixels count in each column
 	for (int i = 0; i < cols; ++i) {

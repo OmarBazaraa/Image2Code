@@ -7,24 +7,19 @@ cv::Mat Segmentation::colorImg;
 cv::Mat Segmentation::binaryImg;
 cv::Mat Segmentation::segmentedImg;
 cv::Mat Segmentation::redImg;
-string Segmentation::code;
-int Segmentation::avgCharWidth;
+int Segmentation::avgCharWidth = 0;
 //========================================================================
 
 
 void Segmentation::segment(cv::Mat& img) {
 	// Set variables
 	colorImg = img;
-	code = "";
-	avgCharWidth = 0;
 
 	// Preprocessing
 	Segmentation::preprocess();
 	Segmentation::skewCorrection();
+	Segmentation::redThresholding();
 	cv::cvtColor(binaryImg, segmentedImg, cv::COLOR_GRAY2BGR);
-
-	// Save preprocessed image
-	imwrite(PREPROCESSED_IMG, binaryImg);
 
 	// Line segmentation
 	vector<cv::Mat> lines;
@@ -49,15 +44,13 @@ void Segmentation::processLine(cv::Mat& lineImg, const string& imgName) {
 	for (int i = 0; i < words.size(); ++i) {
 		processWord(words[i], imgName + Utilities::toString(i, 2));
 	}
-
-	code += "\n";
 }
 
 void Segmentation::processWord(cv::Mat& wordImg, const string& imgName) {
 	// Save word image
 	imwrite(WORD_OUTPUT_PATH + imgName + ".jpg", wordImg);
 
-	// Get the corresponding word from the original قثي image
+	// Get the corresponding word from the original image
 	cv::Size size;
 	cv::Point offset;
 	wordImg.locateROI(size, offset);
@@ -76,9 +69,6 @@ void Segmentation::processWord(cv::Mat& wordImg, const string& imgName) {
 	// Draw rectangle around the word and its chars
 	Utilities::drawRect(segmentedImg, offset.x, offset.y, wordImg.cols, wordImg.rows, WORD_RECT_COLOR);
 	Utilities::drawRect(segmentedImg, offset.x - 1, offset.y - 1, wordImg.cols + 2, wordImg.rows + 2, WORD_RECT_COLOR);
-
-	//
-	code += " ";
 }
 
 void Segmentation::processChar(cv::Mat& charImg, const string& imgName, int offsetX, int offsetY, bool special) {
@@ -95,26 +85,20 @@ void Segmentation::processChar(cv::Mat& charImg, const string& imgName, int offs
 	// Draw rectanlge around the characte
 	Utilities::drawRect(segmentedImg, offsetX, offsetY, charImg.cols, charImg.rows, color);
 	Utilities::drawRect(segmentedImg, offsetX - 1, offsetY - 1, charImg.cols + 2, charImg.rows + 2, color);
-
-	// Character classification
-	code += '*';
 }
 
 void Segmentation::preprocess() {
-	// Resize the image
-	//Utilities::resizeImage(rgbImg, IMG_MAX_WIDTH, IMG_MAX_HEIGHT);
-
 	// Convert image to grayscale
 	cv::cvtColor(colorImg, binaryImg, cv::COLOR_BGR2GRAY);
 
-	// Apply noise reduction Gaussian filter
-	//cv::GaussianBlur(binaryImg, binaryImg, cv::Size(3, 3), 3, 3);
-	//cv::imwrite(BLURED_IMG, binaryImg);
+	medianBlur(binaryImg, binaryImg, 3);
 
 	// Apply Otsu thresholding
 	cv::threshold(binaryImg, binaryImg, 0, 255, CV_THRESH_BINARY_INV | CV_THRESH_OTSU);
 	cv::imwrite(THRESH_IMG, binaryImg);
+}
 
+void Segmentation::redThresholding() {
 	// Threshold the HSV image to keep only the red pixels needed for special chars detection
 	cv::Mat hsvImg, lowerRedImg, upperRedImg;
 	cv::cvtColor(colorImg, hsvImg, cv::COLOR_BGR2HSV);
@@ -156,10 +140,9 @@ void Segmentation::skewCorrection() {
 
 	// Rotate the images by the calculated angle
 	cv::warpAffine(binaryImg, binaryImg, rotationMat, binaryImg.size(), cv::INTER_CUBIC);
-	cv::warpAffine(redImg, redImg, rotationMat, redImg.size(), cv::INTER_CUBIC);
+	cv::warpAffine(colorImg, colorImg, rotationMat, colorImg.size(), cv::INTER_CUBIC);
 
+	// Re-thresholding (needed after the rotation interpolation)
 	cv::threshold(binaryImg, binaryImg, 70, 255, CV_THRESH_BINARY);
-	cv::threshold(redImg, redImg, 70, 255, CV_THRESH_BINARY);
-
-	cv::imwrite(RED_ROTATED_IMG, redImg);
+	cv::imwrite(ROTATED_IMG, binaryImg);
 }

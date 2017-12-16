@@ -3,7 +3,7 @@
 //
 // PATHS
 //
-#define INPUT_IMG               "Data\\Input\\sample_3.jpg"
+#define INPUT_IMG               "Data\\Input\\sample_0.jpg"
 
 #define OUTPUT_PATH             "Data\\Output"
 #define PREPROCESS_OUTPUT_PATH  "Data\\Output\\0.Preprocess\\"
@@ -12,10 +12,9 @@
 #define CHARACTER_OUTPUT_PATH   "Data\\Output\\3.Chars\\"
 
 #define THRESH_IMG              "Data\\Output\\0.Preprocess\\0.thresholded.jpg"
-#define RED_THRESH_IMG          "Data\\Output\\0.Preprocess\\1.red.jpg"
-#define BOUNDING_BOX_IMG        "Data\\Output\\0.Preprocess\\2.bounding_box.jpg"
-#define RED_ROTATED_IMG         "Data\\Output\\0.Preprocess\\3.red_rotated.jpg"
-#define PREPROCESSED_IMG        "Data\\Output\\0.Preprocess\\4.preprocessed.jpg"
+#define BOUNDING_BOX_IMG        "Data\\Output\\0.Preprocess\\1.bounding_box.jpg"
+#define ROTATED_IMG             "Data\\Output\\0.Preprocess\\2.rotated.jpg"
+#define RED_THRESH_IMG          "Data\\Output\\0.Preprocess\\3.red.jpg"
 #define SEGMENTED_IMG           "Data\\Output\\0.Preprocess\\5.segmented.jpg"
 
 //

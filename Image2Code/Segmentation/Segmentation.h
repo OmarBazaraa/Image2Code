@@ -26,7 +26,6 @@ public:
 	static cv::Mat binaryImg;
 	static cv::Mat redImg;
 	static cv::Mat segmentedImg;
-	static string code;
 
 private:
 	static int avgCharWidth;
@@ -54,6 +53,11 @@ private:
 	 * Preprocess the given image.
 	 */
 	static void preprocess();
+
+	/**
+	 * Extract red object from the image.
+	 */
+	static void redThresholding();
 
 	/**
 	 * Rotate the image to correct the skewness

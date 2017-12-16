@@ -13,7 +13,7 @@ using namespace cv;
 
 
 // Main program driver function
-int main() {
+int main(int argc, char* argv[]) {
 	int startTime = clock();
 
 	try {
@@ -31,9 +31,6 @@ int main() {
 		// Segmentation
 		cout << "Segmenting image..." << endl;
 		Segmentation::segment(img);
-				
-		// Print code
-		cout << Segmentation::code << endl;
 	}
 	catch (const exception& ex) {
 		cout << "ERROR::" << ex.what() << endl;
