@@ -95,6 +95,10 @@ void customThreshold(cv::Mat& src, cv::Mat& dst, int blockSize) {
 }
 
 void Utilities::drawRect(Mat& img, int x, int y, int w, int h, Vec3b color) {
+	if (x < 0 || y < 0 || w < 0 || h < 0 || x + w > img.cols || y + h > img.rows) {
+		return;
+	}
+
 	for (int i = 0; i < w; ++i) {
 		img.at<Vec3b>(y, x + i) = color;
 		img.at<Vec3b>(y + h - 1, x + i) = color;

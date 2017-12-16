@@ -26,9 +26,13 @@ struct Region {
 	int id;
 	int U, D, L, R;	// Up, Down, Left, Right
 
+	bool type;		// To distinguish special characters
+
 	Region() {
 		U = L = 1e9;
 		D = R = -1e9;
+
+		type = false;
 	}
 
 	void merge(const Region& rhs) {
@@ -53,6 +57,7 @@ private:
 	static int cols;
 	static int id;
 	static cv::Mat word;
+	static cv::Mat redWord;
 	static cv::Mat visited;
 	static vector<Region> regions;
 	static map<int, int> regionsID;
@@ -62,7 +67,7 @@ public:
 	/**
 	 * Segment the given word image into characters.
 	 */
-	static void segment(cv::Mat& img, vector<cv::Mat>& chars, int avgCharWidth);
+	static void segment(cv::Mat& img, cv::Mat& redImg, vector<cv::Mat>& chars, int avgCharWidth);
 
 private:
 	/**
@@ -103,5 +108,5 @@ private:
 	/**
 	 * Initialize character segmentation variables.
 	 */
-	static void init(cv::Mat& img);
+	static void init(cv::Mat& img, cv::Mat& redImg);
 };

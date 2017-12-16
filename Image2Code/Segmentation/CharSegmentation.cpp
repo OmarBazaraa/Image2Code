@@ -8,6 +8,7 @@ int CharSegmentation::rows;
 int CharSegmentation::cols;
 int CharSegmentation::id;
 cv::Mat CharSegmentation::word;
+cv::Mat CharSegmentation::redWord;
 cv::Mat CharSegmentation::visited;
 vector<Region> CharSegmentation::regions;
 map<int, int> CharSegmentation::regionsID;
@@ -15,8 +16,8 @@ Region CharSegmentation::region;
 //========================================================================
 
 
-void CharSegmentation::segment(cv::Mat& img, vector<cv::Mat>& chars, int threshold) {
-	init(img);
+void CharSegmentation::segment(cv::Mat& img, cv::Mat& redImg, vector<cv::Mat>& chars, int threshold) {
+	init(img, redImg);
 	detectComponents();
 	mergeRegions(threshold);
 	extractChars(chars);
@@ -87,6 +88,10 @@ void CharSegmentation::mergeRegions(int avgCharWidth) {
 		for (int j = i + 1; j < regions.size(); ++j) {
 			Region& q = regions[j];
 
+			if (p.type != q.type) {
+				break;
+			}
+
 			int widthP = p.R - p.L - 1;
 			int widthQ = q.R - q.L - 1;
 
@@ -112,6 +117,11 @@ void CharSegmentation::dfs(int row, int col) {
 	region.D = max(region.D, row);
 	region.R = max(region.R, col);
 
+	// Check if its special char based on its red color
+	if (redWord.at<uchar>(row, col) == BACKCOLOR) {
+		region.type = true;
+	}
+
 	// Set current pixel as visisted with current component id
 	visited.at<uchar>(row, col) = id;
 
@@ -134,11 +144,12 @@ bool CharSegmentation::valid(int row, int col) {
 	);
 }
 
-void CharSegmentation::init(cv::Mat& img) {
+void CharSegmentation::init(cv::Mat& img, cv::Mat& redImg) {
 	rows = img.rows;
 	cols = img.cols;
 	id = 0;
 	word = img;
+	redWord = redImg;
 	visited = cv::Mat::zeros(rows, cols, CV_8U);
 	regions.clear();
 	regionsID.clear();

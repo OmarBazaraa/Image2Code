@@ -24,6 +24,7 @@ public:
 	static cv::Mat rgbImg;
 	static cv::Mat binaryImg;
 	static cv::Mat segmentedImg;
+	static cv::Mat redImg;
 	static string code;
 
 private:

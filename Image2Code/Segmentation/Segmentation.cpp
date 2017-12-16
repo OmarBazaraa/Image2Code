@@ -6,6 +6,7 @@
 cv::Mat Segmentation::rgbImg;
 cv::Mat Segmentation::binaryImg;
 cv::Mat Segmentation::segmentedImg;
+cv::Mat Segmentation::redImg;
 string Segmentation::code;
 int Segmentation::avgCharWidth;
 //========================================================================
@@ -56,9 +57,15 @@ void Segmentation::processWord(cv::Mat& wordImg, const string& imgName) {
 	// Save word image
 	imwrite(WORD_OUTPUT_PATH + imgName + ".jpg", wordImg);
 
+	// Get the corresponding word from the original RGB image
+	cv::Size size;
+	cv::Point offset;
+	wordImg.locateROI(size, offset);
+	cv::Mat rgbWordImg = redImg(cv::Rect(offset.x, offset.y, wordImg.cols, wordImg.rows)).clone();
+
 	// Character segmentation
 	vector<cv::Mat> chars;
-	CharSegmentation::segment(wordImg, chars, avgCharWidth);
+	CharSegmentation::segment(wordImg, rgbWordImg, chars, avgCharWidth);
 
 	for (int i = 0; i < chars.size(); ++i) {
 		processChar(chars[i], imgName + "_" + to_string(i));
@@ -93,8 +100,14 @@ void Segmentation::highlightWord(cv::Mat& wordImg) {
 		w = r.R - r.L + 1;
 		h = r.D - r.U + 1;
 
-		Utilities::drawRect(segmentedImg, x, y, w, h, CHAR_RECT_COLOR);
-		Utilities::drawRect(segmentedImg, x - 1, y - 1, w + 2, h + 2, CHAR_RECT_COLOR);
+		if (r.type) {
+			Utilities::drawRect(segmentedImg, x, y, w, h, SPECIAL_CHAR_RECT_COLOR);
+			Utilities::drawRect(segmentedImg, x - 1, y - 1, w + 2, h + 2, SPECIAL_CHAR_RECT_COLOR);
+		}
+		else {
+			Utilities::drawRect(segmentedImg, x, y, w, h, CHAR_RECT_COLOR);
+			Utilities::drawRect(segmentedImg, x - 1, y - 1, w + 2, h + 2, CHAR_RECT_COLOR);
+		}
 	}
 
 	// Draw magenta rectangle around the whole word
@@ -107,6 +120,14 @@ void Segmentation::highlightWord(cv::Mat& wordImg) {
 }
 
 void Segmentation::preprocess() {
+	// Threshold the HSV image to keep only the red pixels needed for special chars detection
+	cv::Mat hsvImg, lowerRedImg, upperRedImg;
+	cv::cvtColor(rgbImg, hsvImg, cv::COLOR_BGR2HSV);
+	cv::inRange(hsvImg, cv::Scalar(0, 50, 50), cv::Scalar(15, 255, 255), lowerRedImg);
+	cv::inRange(hsvImg, cv::Scalar(150, 50, 50), cv::Scalar(179, 255, 255), upperRedImg);
+	cv::addWeighted(lowerRedImg, 1.0, upperRedImg, 1.0, 0.0, redImg);
+	cv::imwrite("Data\\0.red.png", redImg);
+
 	// Resize the image
 	//Utilities::resizeImage(rgbImg, IMG_MAX_WIDTH, IMG_MAX_HEIGHT);
 
