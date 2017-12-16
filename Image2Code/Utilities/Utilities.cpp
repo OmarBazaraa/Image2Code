@@ -110,6 +110,17 @@ void Utilities::drawRect(Mat& img, int x, int y, int w, int h, Vec3b color) {
 	}
 }
 
+string Utilities::toString(int num, int length) {
+	string res(length, '0');
+
+	while (num > 0 && length--) {
+		res[length] = '0' + (num % 10);
+		num /= 10;
+	}
+
+	return res;
+}
+
 void Utilities::makeDir(const string& dir) {
 	string cmd = "mkdir " + dir;
 	system(cmd.c_str());

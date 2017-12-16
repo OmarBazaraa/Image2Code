@@ -1,6 +1,7 @@
 #pragma once
 
 // STL libraries
+#include <iostream>
 #include <vector>
 
 // OpenCV libraries
@@ -21,10 +22,10 @@ using namespace cv;
 
 class Segmentation {
 public:
-	static cv::Mat rgbImg;
+	static cv::Mat colorImg;
 	static cv::Mat binaryImg;
-	static cv::Mat segmentedImg;
 	static cv::Mat redImg;
+	static cv::Mat segmentedImg;
 	static string code;
 
 private:
@@ -47,12 +48,7 @@ private:
 	 */
 	static void processLine(cv::Mat& lineImg, const string& imgName);
 	static void processWord(cv::Mat& wordImg, const string& imgName);
-	static void processChar(cv::Mat& charImg, const string& imgName);
-
-	/**
-	 * Draw rectangle around the word and its characters.
-	 */
-	static void highlightWord(cv::Mat& wordImg);
+	static void processChar(cv::Mat& charImg, const string& imgName, int offsetX, int offsetY, bool special);
 	
 	/**
 	 * Preprocess the given image.
@@ -60,7 +56,7 @@ private:
 	static void preprocess();
 
 	/**
-	 * Postprocess the given code string.
+	 * Rotate the image to correct the skewness
 	 */
-	static void postprocess();
+	static void skewCorrection();
 };

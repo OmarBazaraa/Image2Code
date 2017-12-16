@@ -19,6 +19,7 @@ int main() {
 	try {
 		// Clear previous output directory
 		Utilities::removeDir(OUTPUT_PATH);
+		Utilities::makeDir(PREPROCESS_OUTPUT_PATH);
 		Utilities::makeDir(LINE_OUTPUT_PATH);
 		Utilities::makeDir(WORD_OUTPUT_PATH);
 		Utilities::makeDir(CHARACTER_OUTPUT_PATH);

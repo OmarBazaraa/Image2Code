@@ -94,10 +94,14 @@ void CharSegmentation::mergeRegions(int avgCharWidth) {
 
 			int widthP = p.R - p.L - 1;
 			int widthQ = q.R - q.L - 1;
-
+			int maxWidht = max(widthP, widthQ);
 			int mergeWidth = q.R - min(p.L, q.L) + 1;
 
-			if ((mergeWidth - max(widthP, widthQ)) * 2 > avgCharWidth) {
+			if (maxWidht > 2 * avgCharWidth) {
+				break;
+			}
+
+			if ((mergeWidth - maxWidht) * 2 > avgCharWidth) {
 				break;
 			}
 			
@@ -118,7 +122,7 @@ void CharSegmentation::dfs(int row, int col) {
 	region.R = max(region.R, col);
 
 	// Check if its special char based on its red color
-	if (redWord.at<uchar>(row, col) == BACKCOLOR) {
+	if (redWord.at<uchar>(row, col) == FORECOLOR) {
 		region.type = true;
 	}
 

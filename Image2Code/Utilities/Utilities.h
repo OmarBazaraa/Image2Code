@@ -45,6 +45,11 @@ public:
 	static void drawRect(Mat& img, int x, int y, int w, int h, Vec3b color);
 
 	/**
+	 * Convert the given number to a numerical string of the specified length
+	 */
+	static string toString(int num, int length);
+
+	/**
 	 * Make a new directory at the given path.
 	 */
 	static void makeDir(const string& dir);
