@@ -42,7 +42,7 @@ void CharSegmentation::detectComponents() {
 			int h = region.D - region.U + 1;
 
 			// Ignore component if it is smaller than a certain threshold
-			if (min(w, h) <= IGNORE_SIZE_THRESHOLD) {
+			if (max(w, h) <= IGNORE_SIZE_THRESHOLD) {
 				continue;
 			}
 

@@ -60,7 +60,19 @@ private:
 	static void redThresholding();
 
 	/**
-	 * Rotate the image to correct the skewness
+	 * Rotate the image to correct the skewness using bounding rectangle technique
+	 * to calculate the skew angle.
 	 */
-	static void skewCorrection();
+	static void skewCorrectionByBoundingBox();
+
+	/**
+	 * Rotate the image to correct the skewness using Hough transform technique
+	 * to calculate the skew angle.
+	 */
+	static void skewCorrectionByHoughTransform();
+
+	/**
+	 * Calculate the text skew angle using hough line transform.
+	 */
+	static double calcSkewAngle();
 };
