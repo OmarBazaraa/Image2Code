@@ -34,7 +34,7 @@ public:
 	/**
 	 * Segment the given text image into lines.
 	 */
-	static void segment(cv::Mat& img);
+	static void segment(cv::Mat& colorImg, cv::Mat& binaryImg);
 
 private:
 	/**
@@ -62,5 +62,16 @@ private:
 	/**
 	 * Rotate the image to correct the skewness
 	 */
-	static void skewCorrection();
+	static void skewCorrectionByBoundingBox();
+
+	/**
+	 * Rotate the image to correct the skewness using Hough transform technique
+	 * to calculate the skew angle.
+	 */
+	static void skewCorrectionByHoughTransform();
+
+	/**
+	 * Calculate the text skew angle using hough line transform.
+	 */
+	static double calcSkewAngle();
 };

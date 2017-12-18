@@ -3,19 +3,20 @@
 //
 // PATHS
 //
-#define INPUT_IMG               "Data\\Input\\sample_0.jpg"
+#define INPUT_IMG               "../Data/Input/sample_0.jpg"
 
-#define OUTPUT_PATH             "Data\\Output"
-#define PREPROCESS_OUTPUT_PATH  "Data\\Output\\0.Preprocess\\"
-#define LINE_OUTPUT_PATH        "Data\\Output\\1.Lines\\"
-#define WORD_OUTPUT_PATH        "Data\\Output\\2.Words\\"
-#define CHARACTER_OUTPUT_PATH   "Data\\Output\\3.Chars\\"
+#define OUTPUT_PATH             "preprocessing/tmp/"
+#define PREPROCESS_OUTPUT_PATH  "preprocessing/tmp/Preprocess/"
+#define LINE_OUTPUT_PATH        "../Data/Output/1.Lines/"
+#define WORD_OUTPUT_PATH        "../Data/Output/2.Words/"
+#define CHARACTER_OUTPUT_PATH   "preprocessing/tmp/Characters/"
 
-#define THRESH_IMG              "Data\\Output\\0.Preprocess\\0.thresholded.jpg"
-#define BOUNDING_BOX_IMG        "Data\\Output\\0.Preprocess\\1.bounding_box.jpg"
-#define ROTATED_IMG             "Data\\Output\\0.Preprocess\\2.rotated.jpg"
-#define RED_THRESH_IMG          "Data\\Output\\0.Preprocess\\3.red.jpg"
-#define SEGMENTED_IMG           "Data\\Output\\0.Preprocess\\5.segmented.jpg"
+#define THRESH_IMG              "../Data/Output/0.Preprocess/0.thresholded.jpg"
+#define LINES_IMG               "preprocessing/tmp/Preprocess/1.lines.jpg"
+#define BOUNDING_BOX_IMG        "tmp/Preprocess/1.bounding_box.jpg"
+#define ROTATED_IMG             "tmp/Preprocess/2.rotated.jpg"
+#define RED_THRESH_IMG          "tmp/Preprocess/3.red.jpg"
+#define SEGMENTED_IMG           "preprocessing/tmp/Preprocess/segmented.jpg"
 
 //
 // GLOBAL CONSTANTS

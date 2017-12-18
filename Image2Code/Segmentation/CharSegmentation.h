@@ -21,6 +21,7 @@ using namespace cv;
 const int IGNORE_SIZE_THRESHOLD = 3;
 const int dirR[8] = { -1, -1, 0, 1, 1, 1, 0, -1 };
 const int dirC[8] = { 0, 1, 1, 1, 0, -1, -1, -1 };
+const int MAX_RECURSIVE_CALL = 50000;
 
 struct Region {
 	int id;
@@ -62,6 +63,8 @@ private:
 	static vector<Region> regions;
 	static map<int, int> regionsID;
 	static Region region;
+
+	static int recursiveCallsCount;
 
 public:
 	/**

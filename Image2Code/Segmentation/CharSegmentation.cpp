@@ -1,4 +1,3 @@
-#pragma once
 #include "CharSegmentation.h"
 
 //
@@ -13,8 +12,8 @@ cv::Mat CharSegmentation::visited;
 vector<Region> CharSegmentation::regions;
 map<int, int> CharSegmentation::regionsID;
 Region CharSegmentation::region;
+int CharSegmentation::recursiveCallsCount = 0;
 //========================================================================
-
 
 void CharSegmentation::segment(cv::Mat& img, cv::Mat& redImg, vector<cv::Mat>& chars, int threshold) {
 	init(img, redImg);
@@ -36,13 +35,18 @@ void CharSegmentation::detectComponents() {
 			region = Region();
 			region.id = ++id;
 			regionsID[id] = id;
+			recursiveCallsCount = 0;
 			dfs(i, j);
+
+			if (recursiveCallsCount > MAX_RECURSIVE_CALL) {
+				continue;
+			}
 
 			int w = region.R - region.L + 1;
 			int h = region.D - region.U + 1;
 
 			// Ignore component if it is smaller than a certain threshold
-			if (min(w, h) <= IGNORE_SIZE_THRESHOLD) {
+			if (max(w, h) <= IGNORE_SIZE_THRESHOLD) {
 				continue;
 			}
 
@@ -115,6 +119,12 @@ void CharSegmentation::mergeRegions(int avgCharWidth) {
 }
 
 void CharSegmentation::dfs(int row, int col) {
+	if (recursiveCallsCount >= MAX_RECURSIVE_CALL) {
+		return;
+	}
+
+	recursiveCallsCount++;
+
 	// Update boundries
 	region.U = min(region.U, row);
 	region.L = min(region.L, col);
