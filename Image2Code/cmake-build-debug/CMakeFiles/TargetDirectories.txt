@@ -1,0 +1,4 @@
+/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/CMakeFiles/imgtxtenh.dir
+/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/CMakeFiles/Image2Code.dir

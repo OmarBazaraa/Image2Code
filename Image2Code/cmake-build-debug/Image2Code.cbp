@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="Image2Code"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\..\usr\local\;CMake Files\..\..\..\..\..\..\usr\local\share\;CMake Files\..\..\..\..\..\..\usr\local\share\OpenCV\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="imgtxtenh">
+				<Option working_dir="/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/Makefile&quot;  VERBOSE=1 imgtxtenh"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Image2Code">
+				<Option output="/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/Image2Code" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/local/include/opencv"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.0.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/Makefile&quot;  VERBOSE=1 Image2Code"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Image2Code/fast">
+				<Option output="/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/Image2Code" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/local/include/opencv"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.0.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/Makefile&quot;  VERBOSE=1 Image2Code/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/Main.cpp">
+			<Option target="Image2Code"/>
+		</Unit>
+		<Unit filename="/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/Preprocessing/AdaptiveWienerFilter/WienerFilter.h">
+			<Option target="Image2Code"/>
+		</Unit>
+		<Unit filename="/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/Preprocessing/Preprocessor.h">
+			<Option target="Image2Code"/>
+		</Unit>
+		<Unit filename="/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/Segmentation/CharSegmentation.cpp">
+			<Option target="Image2Code"/>
+		</Unit>
+		<Unit filename="/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/Segmentation/CharSegmentation.h">
+			<Option target="Image2Code"/>
+		</Unit>
+		<Unit filename="/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/Segmentation/LineSegmentation.cpp">
+			<Option target="Image2Code"/>
+		</Unit>
+		<Unit filename="/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/Segmentation/LineSegmentation.h">
+			<Option target="Image2Code"/>
+		</Unit>
+		<Unit filename="/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/Segmentation/Segmentation.cpp">
+			<Option target="Image2Code"/>
+		</Unit>
+		<Unit filename="/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/Segmentation/Segmentation.h">
+			<Option target="Image2Code"/>
+		</Unit>
+		<Unit filename="/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/Segmentation/WordSegmentation.cpp">
+			<Option target="Image2Code"/>
+		</Unit>
+		<Unit filename="/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/Segmentation/WordSegmentation.h">
+			<Option target="Image2Code"/>
+		</Unit>
+		<Unit filename="/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/Utilities/Constants.h">
+			<Option target="Image2Code"/>
+		</Unit>
+		<Unit filename="/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/Utilities/Utilities.cpp">
+			<Option target="Image2Code"/>
+		</Unit>
+		<Unit filename="/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/Utilities/Utilities.h">
+			<Option target="Image2Code"/>
+		</Unit>
+		<Unit filename="/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/../../../../../../usr/local/share/OpenCV/OpenCVConfig-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\local\share\OpenCV\"/>
+		</Unit>
+		<Unit filename="/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/../../../../../../usr/local/share/OpenCV/OpenCVConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\local\share\OpenCV\"/>
+		</Unit>
+		<Unit filename="/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/../../../../../../usr/local/share/OpenCV/OpenCVModules.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\local\share\OpenCV\"/>
+		</Unit>
+		<Unit filename="/Users/ibrahimradwan/Desktop/lines/Image2Code/Image2Code/../../../../../../usr/local/share/OpenCV/OpenCVModules-release.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\local\share\OpenCV\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
