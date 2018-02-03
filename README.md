@@ -3,6 +3,11 @@ A cross-platform application for converting handwritten and printed code images 
 
 For more information about the used techniques and algorithms you can read our [paper](https://drive.google.com/open?id=1QFvV2Cy_xOMPLxuN_0oWXu5aApSGKggB)
 
+### Note
+This repositry contains only the segmentation modules.
+
+You can find the full project [here](https://github.com/hemoali/I2C).
+
 ### Screenshots
 ![alt text](https://raw.githubusercontent.com/hemoali/I2C/master/pics/Screen%20Shot%202017-12-19%20at%2016.14.09.png)
 
